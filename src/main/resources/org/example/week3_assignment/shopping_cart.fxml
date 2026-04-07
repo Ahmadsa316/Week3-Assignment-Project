@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.week3_assignment.ShoppingCartController">
+
+    <Label fx:id="titleLabel" text="Shopping Cart" />
+
+    <ComboBox fx:id="languageBox" />
+
+    <TextField fx:id="item1PriceField" promptText="Item 1 Price"/>
+    <TextField fx:id="item1QuantityField" promptText="Item 1 Quantity"/>
+
+    <TextField fx:id="item2PriceField" promptText="Item 2 Price"/>
+    <TextField fx:id="item2QuantityField" promptText="Item 2 Quantity"/>
+
+    <Button fx:id="calculateButton" text="Calculate" onAction="#handleCalculate"/>
+
+    <Label fx:id="resultLabel" text="Total:"/>
+
+</VBox>
