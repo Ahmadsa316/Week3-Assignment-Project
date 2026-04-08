@@ -1,51 +1,57 @@
 package org.example.week3_assignment.db;
 
 import org.example.week3_assignment.model.CartItem;
-import org.example.week3_assignment.model.CartRecord;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 public class CartService {
 
-    public void saveCart(CartRecord cart) {
+    public int saveCartRecord(int totalItems, double totalCost, String language) {
+        String sql = "INSERT INTO cart_records (total_items, total_cost, language) VALUES (?, ?, ?)";
 
-        String insertCart = "INSERT INTO cart_records (total_items, total_cost, language) VALUES (?, ?, ?)";
-        String insertItem = "INSERT INTO cart_items (cart_record_id, item_number, price, quantity, subtotal) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        try (Connection conn = DatabaseConnection.getConnection()) {
+            stmt.setInt(1, totalItems);
+            stmt.setDouble(2, totalCost);
+            stmt.setString(3, language);
+            stmt.executeUpdate();
 
-            // Insert cart
-            PreparedStatement cartStmt = conn.prepareStatement(insertCart, Statement.RETURN_GENERATED_KEYS);
-            cartStmt.setInt(1, cart.getTotalItems());
-            cartStmt.setDouble(2, cart.getTotalCost());
-            cartStmt.setString(3, cart.getLanguage());
-
-            cartStmt.executeUpdate();
-
-            var rs = cartStmt.getGeneratedKeys();
-            int cartId = 0;
-
+            ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                cartId = rs.getInt(1);
+                return rs.getInt(1);
             }
 
-            // Insert items
-            for (CartItem item : cart.getItems()) {
-                PreparedStatement itemStmt = conn.prepareStatement(insertItem);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-                itemStmt.setInt(1, cartId);
-                itemStmt.setInt(2, item.getItemNumber());
-                itemStmt.setDouble(3, item.getPrice());
-                itemStmt.setInt(4, item.getQuantity());
-                itemStmt.setDouble(5, item.getSubtotal());
+        return -1;
+    }
 
-                itemStmt.executeUpdate();
+    public void saveCartItems(int cartId, List<CartItem> items) {
+        String sql = "INSERT INTO cart_items (cart_record_id, item_number, price, quantity, subtotal) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            for (CartItem item : items) {
+                stmt.setInt(1, cartId);
+                stmt.setInt(2, item.getItemNumber());
+                stmt.setDouble(3, item.getPrice());
+                stmt.setInt(4, item.getQuantity());
+                stmt.setDouble(5, item.getSubtotal());
+                stmt.addBatch();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            stmt.executeBatch();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

@@ -8,25 +8,31 @@ import java.util.Map;
 
 public class LocalizationService {
 
-    public Map<String, String> getTranslations(String language) {
-        Map<String, String> translations = new HashMap<>();
+    public Map<String, String> loadLanguage(String lang) {
+        Map<String, String> map = new HashMap<>();
+        String sql = "SELECT `key`, value FROM localization_strings WHERE language = ?";
 
-        String query = "SELECT `key`, value FROM localization_strings WHERE language = ?";
+        try (Connection conn = DatabaseConnection.getConnection()) {
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return map;
+            }
 
-            stmt.setString(1, language);
-            ResultSet rs = stmt.executeQuery();
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, lang);
 
-            while (rs.next()) {
-                translations.put(rs.getString("key"), rs.getString("value"));
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        map.put(rs.getString("key"), rs.getString("value"));
+                    }
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return translations;
+        return map;
     }
 }

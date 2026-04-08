@@ -1,29 +1,49 @@
-CREATE DATABASE IF NOT EXISTS shopping_cart_localization
-CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 USE shopping_cart_localization;
 
-CREATE TABLE IF NOT EXISTS cart_records (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    total_items INT NOT NULL,
-    total_cost DOUBLE NOT NULL,
-    language VARCHAR(10),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+DELETE FROM localization_strings;
 
-CREATE TABLE IF NOT EXISTS cart_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    cart_record_id INT,
-    item_number INT NOT NULL,
-    price DOUBLE NOT NULL,
-    quantity INT NOT NULL,
-    subtotal DOUBLE NOT NULL,
-    FOREIGN KEY (cart_record_id) REFERENCES cart_records(id) ON DELETE CASCADE
-);
+INSERT INTO localization_strings (language, `key`, value) VALUES
+('en', 'title', 'Shopping Cart'),
+('en', 'prompt.noItems', 'Enter number of items:'),
+('en', 'prompt.priceItem', 'Enter price for item {0}:'),
+('en', 'prompt.quantityItem', 'Enter quantity for item {0}:'),
+('en', 'button.enter', 'Enter'),
+('en', 'button.calculate', 'Calculate'),
+('en', 'label.total', 'Total:'),
+('en', 'error.invalidInput', 'Invalid input'),
 
-CREATE TABLE IF NOT EXISTS localization_strings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    `key` VARCHAR(100) NOT NULL,
-    value VARCHAR(255) NOT NULL,
-    language VARCHAR(10) NOT NULL
-);
+('ar', 'title', 'عربة التسوق'),
+('ar', 'prompt.noItems', 'أدخل عدد العناصر:'),
+('ar', 'prompt.priceItem', 'أدخل سعر العنصر {0}:'),
+('ar', 'prompt.quantityItem', 'أدخل كمية العنصر {0}:'),
+('ar', 'button.enter', 'إدخال'),
+('ar', 'button.calculate', 'احسب'),
+('ar', 'label.total', 'المجموع:'),
+('ar', 'error.invalidInput', 'إدخال غير صالح'),
+
+('fi', 'title', 'Ostoskori'),
+('fi', 'prompt.noItems', 'Anna tuotteiden määrä:'),
+('fi', 'prompt.priceItem', 'Anna tuotteen {0} hinta:'),
+('fi', 'prompt.quantityItem', 'Anna tuotteen {0} määrä:'),
+('fi', 'button.enter', 'Syötä'),
+('fi', 'button.calculate', 'Laske'),
+('fi', 'label.total', 'Yhteensä:'),
+('fi', 'error.invalidInput', 'Virheellinen syöte'),
+
+('sv', 'title', 'Varukorg'),
+('sv', 'prompt.noItems', 'Ange antal varor:'),
+('sv', 'prompt.priceItem', 'Ange pris för vara {0}:'),
+('sv', 'prompt.quantityItem', 'Ange antal för vara {0}:'),
+('sv', 'button.enter', 'Ange'),
+('sv', 'button.calculate', 'Beräkna'),
+('sv', 'label.total', 'Totalt:'),
+('sv', 'error.invalidInput', 'Ogiltig inmatning'),
+
+('ja', 'title', 'ショッピングカート'),
+('ja', 'prompt.noItems', '商品の数を入力してください:'),
+('ja', 'prompt.priceItem', '商品 {0} の価格を入力してください:'),
+('ja', 'prompt.quantityItem', '商品 {0} の数量を入力してください:'),
+('ja', 'button.enter', '入力'),
+('ja', 'button.calculate', '計算'),
+('ja', 'label.total', '合計:'),
+('ja', 'error.invalidInput', '無効な入力です');

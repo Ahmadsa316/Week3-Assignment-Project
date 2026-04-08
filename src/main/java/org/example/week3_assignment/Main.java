@@ -10,17 +10,17 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/org/example/week3_assignment/shopping_cart.fxml")
+                Main.class.getResource("/org/example/week3_assignment/shopping_cart.fxml")
         );
 
-        Scene scene = new Scene(loader.load(), 400, 400);
+        Scene scene = new Scene(loader.load());
 
-        stage.setTitle("Shopping Cart");
+        stage.setTitle("Shopping Cart - Aroush");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

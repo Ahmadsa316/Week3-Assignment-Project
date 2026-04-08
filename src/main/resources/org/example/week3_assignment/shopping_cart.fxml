@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+<VBox fx:id="rootVBox"
+      alignment="CENTER"
+      spacing="10"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.week3_assignment.ShoppingCartController">
 
-    <Label fx:id="titleLabel" text="Shopping Cart" />
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-    <ComboBox fx:id="languageBox" />
+    <Label fx:id="titleLabel" text="Shopping Cart"/>
 
-    <TextField fx:id="item1PriceField" promptText="Item 1 Price"/>
-    <TextField fx:id="item1QuantityField" promptText="Item 1 Quantity"/>
+    <ComboBox fx:id="languageSelector" prefWidth="180"/>
 
-    <TextField fx:id="item2PriceField" promptText="Item 2 Price"/>
-    <TextField fx:id="item2QuantityField" promptText="Item 2 Quantity"/>
+    <Label fx:id="itemsLabel" text="Enter number of items:"/>
+    <TextField fx:id="itemsField" prefWidth="200"/>
 
-    <Button fx:id="calculateButton" text="Calculate" onAction="#handleCalculate"/>
+    <Button fx:id="enterButton" text="Enter"/>
 
-    <Label fx:id="resultLabel" text="Total:"/>
+    <Label fx:id="priceLabel" text="Enter price:" visible="false"/>
+    <TextField fx:id="priceField" prefWidth="200" visible="false"/>
 
+    <Label fx:id="quantityLabel" text="Enter quantity:" visible="false"/>
+    <TextField fx:id="quantityField" prefWidth="200" visible="false"/>
+
+    <Button fx:id="calculateButton" text="Calculate" visible="false"/>
+
+    <Label fx:id="totalLabel" text=""/>
 </VBox>
